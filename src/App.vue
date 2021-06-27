@@ -1,8 +1,10 @@
 <template>
   <main>
     <PxHeader />
-    <div v-show="isLoading" class="flex justify-center align-center"
-    :class="{'mt-32': isLoading}"
+    <div
+      v-show="isLoading"
+      class="flex justify-center align-center"
+      :class="{ 'mt-32': isLoading }"
     >
       <bounce-loader :loading="isLoading" :size="100" :color="'#68d391'" />
     </div>
