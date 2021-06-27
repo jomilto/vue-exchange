@@ -52,6 +52,7 @@
 
         <div class="my-10 sm:mt-0 flex flex-col justify-center text-center">
           <button
+            @click="toggleConverter"
             class="
               bg-green-500
               hover:bg-green-700
@@ -62,12 +63,13 @@
               rounded
             "
           >
-            Cambiar
+            {{ fromUsd ? `USD a ${asset.symbol}` : `${asset.symbol} a USD` }}
           </button>
 
           <div class="flex flex-row my-5">
             <label class="w-full" for="convertValue">
               <input
+                v-model="convertedValue"
                 id="convertValue"
                 type="number"
                 class="
@@ -83,11 +85,14 @@
                   appearance-none
                   leading-normal
                 "
+                :placeholder="`Valor en ${fromUsd ? 'USD' : asset.symbol}`"
               />
             </label>
           </div>
 
-          <span class="text-xl"></span>
+          <span class="text-xl"
+            >{{ convertResult }} {{ fromUsd ? asset.symbol : 'USD' }}</span
+          >
         </div>
       </div>
 
@@ -142,10 +147,21 @@ export default {
       asset: {},
       history: [],
       markets: [],
+      fromUsd: true,
+      convertedValue: null,
     };
   },
 
   computed: {
+    convertResult() {
+      if (!this.convertedValue) {
+        return 0;
+      }
+      const result = this.fromUsd
+        ? this.convertedValue / this.asset.priceUsd
+        : this.convertedValue * this.asset.priceUsd;
+      return result.toFixed(4);
+    },
     min() {
       return Math.min(
         ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
@@ -166,7 +182,7 @@ export default {
   watch: {
     async $route() {
       await this.getCoin();
-    }
+    },
   },
 
   async created() {
@@ -181,10 +197,10 @@ export default {
       this.history = await api.getAssetHistory(id);
       this.markets = await api.getMarkets(id);
 
-      if(!this.asset){
+      if (!this.asset) {
         this.$router.push({
-        name: 'error',
-      });
+          name: 'error',
+        });
       }
 
       this.$emit('toggleLoading');
@@ -204,6 +220,9 @@ export default {
       let data = await api.getExchange(exchange.exchangeId);
       this.$set(exchange, 'url', data.exchangeUrl);
       this.$set(exchange, 'isLoading', false);
+    },
+    toggleConverter() {
+      this.fromUsd = !this.fromUsd;
     },
   },
 };

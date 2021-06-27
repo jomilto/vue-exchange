@@ -31,21 +31,21 @@ export default {
       links: [
         {
           title: 'BTC',
-          to: { name: 'coin-details', params: { id: 'bitcoin' } }
+          to: { name: 'coin-details', params: { id: 'bitcoin' } },
         },
         {
           title: 'ETH',
-          to: { name: 'coin-details', params: { id: 'ethereum' } }
+          to: { name: 'coin-details', params: { id: 'ethereum' } },
         },
         {
           title: 'XRP',
-          to: { name: 'coin-details', params: { id: 'xrp' } }
+          to: { name: 'coin-details', params: { id: 'xrp' } },
         },
         {
           title: 'About',
-          to: { name: 'about' }
-        }
-      ]
+          to: { name: 'about' },
+        },
+      ],
     };
   },
   methods: {
