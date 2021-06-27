@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  name: "PxAssetsTable",
+  name: 'PxAssetsTable',
   components: {},
   props: {
     assets: {
@@ -44,11 +44,11 @@ export default {
 
 <style lang="css" scoped>
 .up::before {
-  content: "👆";
+  content: '👆';
 }
 
 .down::before {
-  content: "👇";
+  content: '👇';
 }
 
 td {
