@@ -1,7 +1,9 @@
 <template>
   <main>
     <PxHeader />
-    <div v-show="isLoading" class="flex justify-center align-center">
+    <div v-show="isLoading" class="flex justify-center align-center"
+    :class="{'mt-32': isLoading}"
+    >
       <bounce-loader :loading="isLoading" :size="100" :color="'#68d391'" />
     </div>
     <div v-show="!isLoading">
