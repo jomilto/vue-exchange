@@ -3,16 +3,26 @@
     <thead>
       <tr class="bg-gray-100 border-b-2 border-gray-400">
         <th></th>
-        <th>
-          <span>Ranking</span>
+        <th :class="{ up: sortOrder === 1, down: sortOrder === -1 }">
+          <span class="underline cursor-pointer" @click="changeSortOrder"
+            >Ranking</span
+          >
         </th>
         <th>Nombre</th>
         <th>Precio</th>
         <th>Cap. de Mercado</th>
         <th>Variación 24hs</th>
         <td class="hidden sm:block">
-          <input type="text"
-            class="bg-gray-100 focus:outline-none border-b border-gray-400 py-2 px-4 block "
+          <input
+            type="text"
+            class="
+              bg-gray-100
+              focus:outline-none
+              border-b border-gray-400
+              py-2
+              px-4
+              block
+            "
             id="filter"
             placeholder="Buscar ... "
             v-model="filter"
@@ -78,21 +88,30 @@ export default {
       default: () => [],
     },
   },
-  data () {
+  data() {
     return {
-      filter: ''
-    }
+      filter: '',
+      sortOrder: 1,
+    };
   },
   computed: {
-    filteredAssets(){
-      if(!this.filter){
-        return this.assets;
-      }
+    filteredAssets() {
+      const altOrder = this.sortOrder === 1 ? -1 : 1;
 
-      return this.assets.filter(a => 
-      a.symbol.toLowerCase().includes(this.filter.toLowerCase()) || 
-      a.name.toLowerCase().includes(this.filter.toLowerCase()));
-    }
+      return this.assets
+        .filter(
+          (a) =>
+            a.symbol.toLowerCase().includes(this.filter.toLowerCase()) ||
+            a.name.toLowerCase().includes(this.filter.toLowerCase())
+        )
+        .sort((a, b) => {
+          if (parseInt(a.rank) > parseInt(b.rank)) {
+            return this.sortOrder;
+          } else {
+            return altOrder;
+          }
+        });
+    },
   },
   methods: {
     imgURL(symbol) {
@@ -105,6 +124,9 @@ export default {
           id,
         },
       });
+    },
+    changeSortOrder() {
+      this.sortOrder = this.sortOrder === 1 ? -1 : 1;
     },
   },
 };
