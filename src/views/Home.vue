@@ -19,10 +19,10 @@ export default {
     };
   },
   async created() {
-    this.$emit('toggleLoading',true);
+    this.$emit('toggleLoading');
     let data = await api.getAssets();
     this.assets = data;
-    this.$emit('toggleLoading',false);
+    this.$emit('toggleLoading');
   },
 };
 </script>

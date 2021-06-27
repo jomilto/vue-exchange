@@ -125,9 +125,9 @@ export default {
   },
 
   async created() {
-    this.$emit('toggleLoading',true);
+    this.$emit('toggleLoading');
     await this.getCoin();
-    this.$emit('toggleLoading',false);
+    this.$emit('toggleLoading');
   },
 
   methods: {

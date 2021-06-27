@@ -1,15 +1,15 @@
 <template>
   <main>
     <PxHeader />
-    <div
-      v-show="isLoading"
-     class="flex justify-center align-center">
+    <div v-show="isLoading" class="flex justify-center align-center">
       <bounce-loader :loading="isLoading" :size="100" :color="'#68d391'" />
     </div>
-    <div v-show="!isLoading" >
-      <router-view class="container px-5 sm:px-20 py-20 flex justify-center" @toggleLoading="handleLoading"
+    <div v-show="!isLoading">
+      <router-view
+        class="container px-5 sm:px-20 py-20 flex justify-center"
+        @toggleLoading="handleLoading"
+      />
     </div>
-    />
   </main>
 </template>
 
@@ -23,14 +23,14 @@ export default {
   },
   data() {
     return {
-      isLoading: false
-    }
+      isLoading: false,
+    };
   },
   methods: {
-    handleLoading(value){
-      this.isLoading = value;
-    }
-  }
+    handleLoading() {
+      this.isLoading = !this.isLoading;
+    },
+  },
 };
 </script>
 
