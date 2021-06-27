@@ -21,7 +21,7 @@ const routes = [
   },
   {
     path: '/coin/:id',
-    name: 'coin-detail',
+    name: 'coin-details',
     component: CoinDetail,
   },
   {

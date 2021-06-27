@@ -4,7 +4,7 @@
       <div class="flex flex-col sm:flex-row justify-around items-center">
         <div class="flex flex-col items-center">
           <img
-            :src="`https://static.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`"
+            :src="imgURL(asset.symbol)"
             :alt="asset.name"
             class="w-20 h-20 mr-5"
           />
@@ -39,12 +39,13 @@
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Variación 24hs</b>
               <span
-               :class="
+                :class="
                   asset.changePercent24Hr.includes('-')
                     ? 'text-red-600'
                     : 'text-green-600'
                 "
-              >{{ asset.changePercent24Hr | percent }}</span>
+                >{{ asset.changePercent24Hr | percent }}</span
+              >
             </li>
           </ul>
         </div>
@@ -102,26 +103,26 @@ export default {
   data() {
     return {
       asset: {},
-      history: []
+      history: [],
     };
   },
 
   computed: {
     min() {
       return Math.min(
-        ...this.history.map(h => parseFloat(h.priceUsd).toFixed(2))
-      )
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+      );
     },
     max() {
       return Math.max(
-        ...this.history.map(h => parseFloat(h.priceUsd).toFixed(2))
-      )
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+      );
     },
     avg() {
       return Math.abs(
-        ...this.history.map(h => parseFloat(h.priceUsd).toFixed(2))
-      )
-    }
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+      );
+    },
   },
 
   async created() {
@@ -139,6 +140,9 @@ export default {
       //       this.history = history
       //     }
       //   )
+    },
+    imgURL(symbol) {
+      return `https://static.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`;
     },
   },
 };

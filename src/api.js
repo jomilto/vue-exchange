@@ -16,11 +16,13 @@ async function getAsset(coinName) {
 
 async function getAssetHistory(coinName) {
   const now = new Date();
-  const end = now.getTime()
-  now.setDate(now.getDate()-1)
-  const start = now.getTime()
+  const end = now.getTime();
+  now.setDate(now.getDate() - 1);
+  const start = now.getTime();
 
-  let data = await fetch(`${url}/assets/${coinName}/history?interval=h1&start=${start}&end=${end}`);
+  let data = await fetch(
+    `${url}/assets/${coinName}/history?interval=h1&start=${start}&end=${end}`
+  );
   data = await data.json();
   data = data.data;
   return data;
@@ -29,5 +31,5 @@ async function getAssetHistory(coinName) {
 export default {
   getAssets,
   getAsset,
-  getAssetHistory
+  getAssetHistory,
 };
