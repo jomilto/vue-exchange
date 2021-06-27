@@ -99,7 +99,6 @@ import api from '@/api';
 
 export default {
   name: 'CoinDetail',
-
   data() {
     return {
       asset: {},
@@ -126,7 +125,9 @@ export default {
   },
 
   async created() {
+    this.$emit('toggleLoading',true);
     await this.getCoin();
+    this.$emit('toggleLoading',false);
   },
 
   methods: {
