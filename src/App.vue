@@ -1,6 +1,6 @@
 <template>
   <main>
-    <PxHeader />
+    <PxHeader :links="links" />
     <div
       v-show="isLoading"
       class="flex justify-center align-center"
@@ -28,6 +28,24 @@ export default {
   data() {
     return {
       isLoading: false,
+      links: [
+        {
+          title: 'BTC',
+          to: { name: 'coin-details', params: { id: 'bitcoin' } }
+        },
+        {
+          title: 'ETH',
+          to: { name: 'coin-details', params: { id: 'ethereum' } }
+        },
+        {
+          title: 'XRP',
+          to: { name: 'coin-details', params: { id: 'xrp' } }
+        },
+        {
+          title: 'About',
+          to: { name: 'about' }
+        }
+      ]
     };
   },
   methods: {

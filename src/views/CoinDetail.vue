@@ -163,18 +163,31 @@ export default {
     },
   },
 
+  watch: {
+    async $route() {
+      await this.getCoin();
+    }
+  },
+
   async created() {
-    this.$emit('toggleLoading');
     await this.getCoin();
-    this.$emit('toggleLoading');
   },
 
   methods: {
     async getCoin() {
+      this.$emit('toggleLoading');
       const id = this.$route.params.id;
       this.asset = await api.getAsset(id);
       this.history = await api.getAssetHistory(id);
       this.markets = await api.getMarkets(id);
+
+      if(!this.asset){
+        this.$router.push({
+        name: 'error',
+      });
+      }
+
+      this.$emit('toggleLoading');
       //   Promise.all([api.getAsset(id), api.getAssetHistory(id)]).then(
       //     ([asset, history]) => {
       //       this.asset = asset
