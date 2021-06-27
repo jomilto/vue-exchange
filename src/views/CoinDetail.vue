@@ -90,19 +90,58 @@
           <span class="text-xl"></span>
         </div>
       </div>
+
+      <line-chart
+        class="my-10"
+        :colors="['orange']"
+        :min="min"
+        :max="max"
+        :data="history.map((h) => [h.date, parseFloat(h.priceUsd).toFixed(2)])"
+      />
+
+      <h3 class="text-xl my-10">Mejores Ofertas de Cambio</h3>
+      <table>
+        <tr
+          v-for="m in markets"
+          :key="`${m.exchangeId}-${m.priceUsd}`"
+          class="border-b"
+        >
+          <td>
+            <b>{{ m.exchangeId }}</b>
+          </td>
+          <td>{{ m.priceUsd | dollar }}</td>
+          <td>{{ m.baseSymbol }} / {{ m.quoteSymbol }}</td>
+          <td>
+            <PxButton
+              :is-loading="m.isLoading || false"
+              v-if="!m.url"
+              @custom-click="getWebSite(m)"
+            >
+              <slot>Obtener Link</slot>
+            </PxButton>
+
+            <a v-else class="hover:underline text-green-600" target="_blanck">{{
+              m.url
+            }}</a>
+          </td>
+        </tr>
+      </table>
     </template>
   </div>
 </template>
 
 <script>
 import api from '@/api';
+import PxButton from '@/components/PxButton';
 
 export default {
   name: 'CoinDetail',
+  components: { PxButton },
   data() {
     return {
       asset: {},
       history: [],
+      markets: [],
     };
   },
 
@@ -135,6 +174,7 @@ export default {
       const id = this.$route.params.id;
       this.asset = await api.getAsset(id);
       this.history = await api.getAssetHistory(id);
+      this.markets = await api.getMarkets(id);
       //   Promise.all([api.getAsset(id), api.getAssetHistory(id)]).then(
       //     ([asset, history]) => {
       //       this.asset = asset
@@ -144,6 +184,13 @@ export default {
     },
     imgURL(symbol) {
       return `https://static.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`;
+    },
+    async getWebSite(exchange) {
+      this.$set(exchange, 'isLoading', true);
+
+      let data = await api.getExchange(exchange.exchangeId);
+      this.$set(exchange, 'url', data.exchangeUrl);
+      this.$set(exchange, 'isLoading', false);
     },
   },
 };
