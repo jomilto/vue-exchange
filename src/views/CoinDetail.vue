@@ -217,8 +217,12 @@ export default {
     async getWebSite(exchange) {
       this.$set(exchange, 'isLoading', true);
 
-      let data = await api.getExchange(exchange.exchangeId);
-      this.$set(exchange, 'url', data.exchangeUrl);
+      try {
+        let data = await api.getExchange(exchange.exchangeId);
+        this.$set(exchange, 'url', data.exchangeUrl);
+      } catch (err) {
+        this.$set(exchange, 'url', undefined);
+      }
       this.$set(exchange, 'isLoading', false);
     },
     toggleConverter() {
